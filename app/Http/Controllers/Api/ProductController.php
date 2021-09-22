@@ -71,11 +71,11 @@ class ProductController extends ApiController
     {
         try{
             $product = Product::findOrFail($id);
-            return $this->apiResponse(ResultType::Success, $product, 'Product found', 200);
+            return $this->apiResponse(ResultType::Success, $product, 'Product found.', 200);
             
         }
         catch(ModelNotFoundException $exception){
-            return $this->apiResponse(ResultType::Error, null, 'Product not found', 404);
+            return $this->apiResponse(ResultType::Error, null, 'Product not found.', 404);
         }
     }
 
