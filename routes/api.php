@@ -18,6 +18,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::middleware('auth.basic')->get('/user-basic', function (Request $request) {
+    return $request->user();
+});
+
 //Route::apiResource('/products','Api\ProductController');
 //Route::apiResource('/users','Api\UserController');
 Route::get('categories/custom1','Api\CategoryController@custom1');
@@ -33,3 +37,17 @@ Route::apiResources([
     'users' => 'Api\UserController',
     'categories' => 'Api\CategoryController',
 ]);
+
+Route::post('/auth/login','Api\AuthController@login');
+
+Route::middleware('api-token')->group(function() {
+    Route::get('/auth/token', function (Request $request) {
+        $user = $request->user();
+
+        return response()->json([
+            'name' => $user->name,
+            'access_token' => $user->api_token,
+            'time' => time()
+        ]);
+    });
+});
